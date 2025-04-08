@@ -4,14 +4,13 @@ import path from "node:path"
 import uploadConfig from "@/configs/upload"
 
 class DiskStorage {
-    async saveFile(file: string){
+    async saveFile(file: string) {
         const tmpPath = path.resolve(uploadConfig.TMP_FOLDER, file)
         const destPath = path.resolve(uploadConfig.UPLOADS_FOLDER, file)
-    
-        try{
+
+        try {
             await fs.promises.access(tmpPath)
-        } catch ( error ){
-            console.log(error)
+        } catch (error) {
             throw new Error(`Arquivo não encontrado: ${tmpPath}`)
         }
 
@@ -20,10 +19,10 @@ class DiskStorage {
         return file
     }
 
-    async deleteFile (file: string, type: "tmp" | "upload"){
-        const pathFile = (type === "tmp")? uploadConfig.TMP_FOLDER : uploadConfig.UPLOADS_FOLDER
+    async deleteFile(file: string, type: "tmp" | "upload") {
+        const pathFile = (type === "tmp") ? uploadConfig.TMP_FOLDER : uploadConfig.UPLOADS_FOLDER
         const filePath = path.resolve(pathFile, file)
-        
+
         try {
             await fs.promises.stat(filePath)
         } catch {
